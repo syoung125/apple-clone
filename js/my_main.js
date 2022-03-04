@@ -16,8 +16,14 @@
         messageB: document.querySelector("#scroll-section-0 .main-message.b"),
         messageC: document.querySelector("#scroll-section-0 .main-message.c"),
         messageD: document.querySelector("#scroll-section-0 .main-message.d"),
+        canvas: document.querySelector("#video-canvas-0"),
+        context: document.querySelector("#video-canvas-0").getContext("2d"),
+        videoImages: [],
       },
       values: {
+        videoImageCount: 300,
+        imageSequence: [0, 299],
+        canvas_opacity: [1, 0, { start: 0.9, end: 1 }],
         messageA_opacity_in: [0, 1, { start: 0.1, end: 0.2 }], // start,end: 씬에서 애니메이션이 재생되는 구간
         messageB_opacity_in: [0, 1, { start: 0.3, end: 0.4 }],
         messageC_opacity_in: [0, 1, { start: 0.5, end: 0.6 }],
@@ -91,6 +97,16 @@
     },
   ];
 
+  function setCanvasImgaes() {
+    let imgElem;
+    for (let i = 0; i < sceneInfo[0].values.videoImageCount; i++) {
+      imgElem = new Image();
+      imgElem.src = `./video/001/IMG_${6726 + i}.JPG`;
+      sceneInfo[0].objs.videoImages.push(imgElem);
+    }
+  }
+  setCanvasImgaes();
+
   function setLayout() {
     // 각 스크롤 섹션의 높이 설정
     for (let i = 0; i < sceneInfo.length; i++) {
@@ -116,6 +132,9 @@
     }
 
     document.body.setAttribute("id", `show-scene-${currentScene}`);
+
+    const heightRatio = window.innerHeight / 1080;
+    sceneInfo[0].objs.canvas.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`;
   }
 
   function calcValues(values, currentYOffset) {
@@ -157,6 +176,15 @@
 
     switch (currentScene) {
       case 0:
+        let sequence = Math.round(
+          calcValues(values.imageSequence, currentYOffset)
+        );
+        objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+        objs.canvas.style.opacity = calcValues(
+          values.canvas_opacity,
+          currentYOffset
+        );
+
         if (scrollRatio <= 0.22) {
           // in
           objs.messageA.style.opacity = calcValues(
@@ -361,7 +389,10 @@
     yOffset = window.scrollY;
     scrollLoop();
   });
-  window.addEventListener("load", setLayout);
+  window.addEventListener("load", () => {
+    setLayout();
+    sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
+  });
   window.addEventListener("resize", setLayout);
 
   setLayout();
