@@ -556,6 +556,16 @@
               currentYOffset
             )})`;
           }
+
+          objs.canvas.style.marginTop = 0;
+        }
+
+        if (
+          scrollRatio > values.canvas_scale[2].end &&
+          values.canvas_scale[2].end > 0
+        ) {
+          objs.canvas.classList.remove("sticky");
+          objs.canvas.style.marginTop = `${scrollHeight * 0.4}px`;
         }
 
         break;
