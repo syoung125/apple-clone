@@ -20,7 +20,10 @@ a {
 body.before-loading {
   overflow: hidden;
 }
-
+.container {
+  /* iPhone에서 가로 스크롤 방지 */
+  overflow-x: hidden;
+}
 .global-nav {
   position: absolute;
   top: 0;
@@ -44,6 +47,10 @@ body.before-loading {
   position: fixed;
   top: 0;
   background: rgba(255, 255, 255, 0.1);
+  /* for iPhone */
+  -webkit-backdrop-filter: saturate(180%) blur(15px);
+  -moz-backdrop-filter: saturate(180%) blur(15px);
+  -o-backdrop-filter: saturate(180%) blur(15px);
   backdrop-filter: saturate(180%) blur(15px);
 }
 
@@ -168,6 +175,7 @@ body.before-loading {
 #show-scene-2 #scroll-section-2 .sticky-elem,
 #show-scene-3 #scroll-section-3 .sticky-elem {
   display: block;
+  will-change: transform, opacity;
 }
 .sticky-elem-canvas {
   top: 0;
