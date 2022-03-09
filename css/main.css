@@ -177,6 +177,10 @@ body.before-loading {
   display: block;
   will-change: transform, opacity;
 }
+.scroll-effect-end .sticky-elem {
+  /* 스크롤 효과가 모두 끝나고, 아래 일반 콘텐츠 영역에서는 sticky-elem들을 모두 안보이도록 */
+  display: none !important;
+}
 .sticky-elem-canvas {
   top: 0;
   height: 100%;
@@ -244,6 +248,10 @@ body.before-loading {
   stroke-dashoffset: 0;
   fill: none;
   animation: loading-circle-ani 1s infinite;
+}
+
+.normal-content {
+  margin-bottom: 10rem;
 }
 
 @media (min-width: 1024px) {
